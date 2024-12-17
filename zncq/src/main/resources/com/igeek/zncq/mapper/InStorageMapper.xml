@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.InStorageMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.InStorage">
+        <result column="in_id" property="inId" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="good_id" property="goodId" jdbcType="INTEGER"/>
+        <result column="num" property="num" jdbcType="BIGINT"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="container_id" property="containerId" jdbcType="INTEGER"/>
+        <result column="inDate" property="indate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        in_id
+        , order_no, good_id, num, warehouse_id, container_id, inDate
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.InStorageExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from in_storage
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.InStorageExample">
+        delete from in_storage
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.InStorage">
+        insert into in_storage (in_id, order_no, good_id,
+                                num, warehouse_id, container_id,
+                                inDate)
+        values (#{inId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{goodId,jdbcType=INTEGER},
+                #{num,jdbcType=BIGINT}, #{warehouseId,jdbcType=INTEGER}, #{containerId,jdbcType=INTEGER},
+                #{indate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.InStorage">
+        insert into in_storage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="inId != null">
+                in_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="goodId != null">
+                good_id,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="containerId != null">
+                container_id,
+            </if>
+            <if test="indate != null">
+                inDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="inId != null">
+                #{inId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodId != null">
+                #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=BIGINT},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="containerId != null">
+                #{containerId,jdbcType=INTEGER},
+            </if>
+            <if test="indate != null">
+                #{indate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.InStorageExample" resultType="java.lang.Integer">
+        select count(*) from in_storage
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="InStorageVo" type="com.igeek.zncq.vo.InStorageVo">
+        <id property="inId" column="id"></id>
+        <result property="orderNo" column="order_no"></result>
+        <result property="warehouseId" column="warehouse_id"></result>
+        <association property="warehouse" javaType="com.igeek.zncq.entity.Warehouse">
+            <result property="name" column="name"></result>
+            <result property="address" column="address"></result>
+            <result property="admin" column="admin"></result>
+            <result property="phone" column="phone"></result>
+        </association>
+    </resultMap>
+    <select id="selectAll" resultMap="InStorageVo">
+        select distinct (i.order_no), i.warehouse_id, w.name, w.admin, w.phone, w.address
+        from in_storage i
+                 left join warehouse w on w.id = i.warehouse_id
+    </select>
+    <resultMap id="OrderVo" type="com.igeek.zncq.vo.OrderVo">
+        <result property="orderNo" column="order_no"></result>
+        <collection property="goods" ofType="com.igeek.zncq.vo.GoodRawVo">
+            <id property="goodId" column="good_id"></id>
+            <result property="goodName" column="good_name"></result>
+            <result property="num" column="num"></result>
+            <result property="goodTypeId" column="good_type_id"></result>
+            <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+                <id column="id" property="id"></id>
+                <result column="name" property="name"></result>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="selectAllGoodByOrderNo" resultMap="OrderVo">
+        select i.order_no, i.num, g.good_id, g.good_name,g.good_type_id ,s.name
+        from in_storage i
+                 left join good g on i.good_id = g.good_id
+                 left join supplier s on s.id = g.supplier_id
+        where i.order_no = #{orderNo}
+    </select>
+    <select id="selectAllByQuery" resultMap="InStorageVo">
+        select distinct (i.order_no), i.warehouse_id, w.name, w.admin, w.phone, w.address
+        from in_storage i
+        left join warehouse w on w.id = i.warehouse_id
+        <where>
+            <if test="orderNo!=null and orderNo!=''">
+                and i.order_no like concat('%',#{orderNo},'%')
+            </if>
+            <if test="warehouseName != null and warehouseName != ''">
+                and w.name like concat('%',#{warehouseName},'%')
+            </if>
+        </where>
+    </select>
+    <resultMap id="InStorageVoByInDate" type="com.igeek.zncq.vo.InStorageVo">
+        <result property="orderNo" column="order_no"></result>
+        <result property="num" column="num"></result>
+        <result property="indate" column="inDate"></result>
+        <association property="good" javaType="com.igeek.zncq.entity.Good">
+            <id property="goodId" column="gid"></id>
+            <result property="goodName" column="good_name"></result>
+            <result property="goodTypeId" column="good_type_id"></result>
+        </association>
+        <association property="warehouse" javaType="com.igeek.zncq.entity.Warehouse">
+            <id property="id" column="wid"></id>
+            <result property="name" column="wname"></result>
+        </association>
+        <association property="container" javaType="com.igeek.zncq.entity.Container">
+            <id property="id" column="cid"></id>
+            <result property="name" column="cname"></result>
+            <result property="type" column="type"></result>
+        </association>
+    </resultMap>
+    <select id="selectInStorageVoByInDate" resultMap="InStorageVoByInDate">
+        select i.order_no,g.good_id gid ,g.good_name, g.good_type_id, i.num,w.id wid ,w.name wname,c.id cid ,c.name cname,c.type, i.inDate
+        from in_storage i
+                 join good g on i.good_id = g.good_id
+                 join warehouse w on i.warehouse_id = w.id
+                 left join container c on i.container_id = c.id
+        where i.inDate is not null
+    </select>
+
+    <select id="selectInStorageVoByQuery2" resultMap="InStorageVoByInDate">
+        select i.order_no,g.good_id gid ,g.good_name, g.good_type_id, i.num,w.id wid ,w.name wname,c.id cid ,c.name cname,c.type, i.inDate
+        from in_storage i
+                 join good g on i.good_id = g.good_id
+                 join warehouse w on i.warehouse_id = w.id
+                 left join container c on i.container_id = c.id
+        <where>
+            and i.inDate is not null
+            <if test="orderNo != null and orderNo!=''">
+                and i.order_no like concat('%',#{orderNo},'%')
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and g.good_name like concat('%',#{goodName},'%')
+            </if>
+            <if test="fromDate != null and toDate != null">
+                and i.inDate between #{fromDate} and #{toDate}
+            </if>
+        </where>
+    </select>
+    <resultMap id="GoodVoByOrderNo" type="com.igeek.zncq.vo.GoodRawVo">
+        <id property="goodId" column="good_id"></id>
+        <result property="goodTypeId" column="good_type_id"></result>
+        <result property="goodName" column="good_name"></result>
+        <result property="num" column="num"></result>
+        <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
+    <select id="selectGoodVoByOrderNo" resultMap="GoodVoByOrderNo">
+        select g.good_id , g.good_type_id , g.good_name,og.num,s.id , s.name
+        from order_good og join good g on g.good_id = og.good_id
+                           join supplier s on s.id = g.supplier_id
+        where og.state = 1 and og.order_no = #{orderNo};
+    </select>
+    <select id="selectGoodVoByInStorageOrderNo" resultMap="GoodVoByOrderNo">
+        select g.good_id , g.good_type_id , g.good_name,s1.num,s.id , s.name
+        from in_storage s1 join good g on s1.good_id = g.good_id
+                           join supplier s on s.id = g.supplier_id
+        where s1.inDate is not null and s1.order_no = #{orderNo}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update in_storage
+        <set>
+            <if test="record.inId != null">
+                in_id = #{record.inId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodId != null">
+                good_id = #{record.goodId,jdbcType=INTEGER},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=BIGINT},
+            </if>
+            <if test="record.warehouseId != null">
+                warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="record.containerId != null">
+                container_id = #{record.containerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.indate != null">
+                inDate = #{record.indate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update in_storage
+        set in_id = #{record.inId,jdbcType=INTEGER},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        good_id = #{record.goodId,jdbcType=INTEGER},
+        num = #{record.num,jdbcType=BIGINT},
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+        container_id = #{record.containerId,jdbcType=INTEGER},
+        inDate = #{record.indate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+</mapper>

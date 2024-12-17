@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.PurchaseMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.Purchase">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="num" property="num" jdbcType="BIGINT"/>
+        <result column="purchase_no" property="purchaseNo" jdbcType="VARCHAR"/>
+        <result column="create_name" property="createName" jdbcType="VARCHAR"/>
+        <result column="process_name" property="processName" jdbcType="VARCHAR"/>
+        <result column="createDate" property="createdate" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , num, purchase_no, create_name, process_name, createDate, state, order_no
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.PurchaseExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from purchase
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.PurchaseExample">
+        delete from purchase
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <delete id="deleteOrderGoodByQuery">
+        delete from `order_good` where good_id = #{goodId} and order_no = #{orderNo}
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.Purchase">
+        insert into purchase (id, num, purchase_no,
+                              create_name, process_name, createDate,
+                              state, order_no)
+        values (#{id,jdbcType=INTEGER}, #{num,jdbcType=BIGINT}, #{purchaseNo,jdbcType=VARCHAR},
+                #{createName,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP},
+                #{state,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.Purchase">
+        insert into purchase
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="purchaseNo != null">
+                purchase_no,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="processName != null">
+                process_name,
+            </if>
+            <if test="createdate != null">
+                createDate,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=BIGINT},
+            </if>
+            <if test="purchaseNo != null">
+                #{purchaseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="processName != null">
+                #{processName,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate != null">
+                #{createdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertPurchase">
+        insert into purchase(id, purchase_no, create_name, createDate, state, order_no)
+        values (null, #{purchaseNo}, #{createName}, #{createdate}, #{state}, #{orderNo})
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.PurchaseExample" resultType="java.lang.Integer">
+        select count(*) from purchase
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="PurchaseVo" type="com.igeek.zncq.vo.PurchaseVo">
+        <id column="id" property="id"></id>
+        <collection property="goods" ofType="com.igeek.zncq.vo.GoodRawVo">
+            <id column="gid" property="goodId"></id>
+            <result column="good_name" property="goodName"></result>
+            <result column="good_type_id" property="goodTypeId"></result>
+            <result column="pic" property="pic"></result>
+            <result column="price" property="price"></result>
+            <result column="num" property="num"></result>
+            <result column="detail" property="detail" jdbcType="LONGNVARCHAR"></result>
+            <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+                <id property="id" column="sid"></id>
+                <result property="name" column="name"></result>
+                <result property="phone" column="phone"></result>
+                <result property="address" column="address"></result>
+                <result property="linkman" column="linkMan"></result>
+                <result property="email" column="email"></result>
+                <result property="remarks" column="remarks" jdbcType="LONGNVARCHAR"></result>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="selectPurchaseVoByNo" resultMap="PurchaseVo">
+        select p.id id,g.good_id gid,og.num num,
+               g.good_name,g.price,g.detail,g.pic,
+               s.id  sid,s.name,s.phone,s.address,s.linkMan,
+               s.email, s.remarks
+        from purchase p
+                 join order_good og on p.order_no = og.order_no
+                 join good g on g.good_id = og.good_id
+                 join supplier s on g.supplier_id = s.id
+        where p.purchase_no = #{purchaseNo};
+    </select>
+    <select id="selectNumOrderGood" resultType="java.lang.Integer">
+        select num from `order_good` where good_id = #{goodId} and order_no = #{orderNo}
+    </select>
+    <select id="selectOneByPurchaseNo" resultType="com.igeek.zncq.entity.Purchase">
+        select * from purchase where purchase_no = #{purchaseNo}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update purchase
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=BIGINT},
+            </if>
+            <if test="record.purchaseNo != null">
+                purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createName != null">
+                create_name = #{record.createName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.processName != null">
+                process_name = #{record.processName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createdate != null">
+                createDate = #{record.createdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update purchase
+        set id = #{record.id,jdbcType=INTEGER},
+        num = #{record.num,jdbcType=BIGINT},
+        purchase_no = #{record.purchaseNo,jdbcType=VARCHAR},
+        create_name = #{record.createName,jdbcType=VARCHAR},
+        process_name = #{record.processName,jdbcType=VARCHAR},
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+        state = #{record.state,jdbcType=INTEGER},
+        order_no = #{record.orderNo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateNumOrderGood">
+        update `order_good`  set num = #{num} where good_id = #{goodId} and order_no = #{orderNo}
+    </update>
+    <update id="updateState">
+        update `purchase` SET state = #{state} WHERE (  purchase_no = #{purchaseNo} )
+    </update>
+
+</mapper>

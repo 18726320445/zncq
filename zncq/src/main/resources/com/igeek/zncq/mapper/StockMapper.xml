@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.StockMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.Stock">
+        <id column="stock_id" property="stockId" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="container_id" property="containerId" jdbcType="INTEGER"/>
+        <result column="good_id" property="goodId" jdbcType="INTEGER"/>
+        <result column="num" property="num" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        stock_id
+        , warehouse_id, container_id, good_id, num
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.StockExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from stock
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from stock
+        where stock_id = #{stockId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from stock
+        where stock_id = #{stockId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.StockExample">
+        delete from stock
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.Stock">
+        insert into stock (stock_id, warehouse_id, container_id,
+                           good_id, num)
+        values (#{stockId,jdbcType=INTEGER}, #{warehouseId,jdbcType=INTEGER}, #{containerId,jdbcType=INTEGER},
+                #{goodId,jdbcType=INTEGER}, #{num,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.Stock">
+        insert into stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stockId != null">
+                stock_id,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="containerId != null">
+                container_id,
+            </if>
+            <if test="goodId != null">
+                good_id,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stockId != null">
+                #{stockId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="containerId != null">
+                #{containerId,jdbcType=INTEGER},
+            </if>
+            <if test="goodId != null">
+                #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.StockExample" resultType="java.lang.Integer">
+        select count(*) from stock
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="StockVo" type="com.igeek.zncq.vo.StockVo">
+        <result property="num" column="num"></result>
+        <result property="enableNum" column="enable_num"></result>
+        <association property="good" javaType="com.igeek.zncq.entity.Good">
+            <id property="goodId" column="good_id"></id>
+            <result property="goodName" column="good_name"></result>
+            <result property="goodTypeId" column="good_type_id"></result>
+        </association>
+        <association property="warehouse" javaType="com.igeek.zncq.entity.Warehouse">
+            <id property="id" column="wid"></id>
+            <result property="name" column="wname"></result>
+        </association>
+        <association property="container" javaType="com.igeek.zncq.entity.Container">
+            <id property="id" column="cid"></id>
+            <result property="name" column="cname"></result>
+        </association>
+    </resultMap>
+    <select id="selectAllByPage" resultMap="StockVo">
+        select w.id                              wid,
+               w.name                            wname,
+               c.id                              cid,
+               c.name                            cname,
+               g.good_id,
+               g.good_name,
+               g.good_type_id,
+               s.num,
+               (wc.num * c.max_capacity - s.num) enable_num
+        from stock s
+                 join good g on s.good_id = g.good_id
+                 join warehouse w on s.warehouse_id = w.id
+                 join container c on s.container_id = c.id
+                 join warehouse_container wc on s.container_id = wc.container_id and s.warehouse_id = wc.warehouse_id
+    </select>
+    <select id="selectAllByQuery" resultMap="StockVo">
+        select w.id wid, w.name wname,c.id cid ,c.name cname,g.good_id, g.good_name,g.good_type_id,s.num,(wc.num *
+        c.max_capacity - s.num) enable_num
+        from stock s join good g on s.good_id = g.good_id
+        join warehouse w on s.warehouse_id = w.id
+        join container c on s.container_id = c.id
+        join warehouse_container wc on s.container_id = wc.container_id and s.warehouse_id = wc.warehouse_id
+        <where>
+            <if test="warehouseName != null and warehouseName != ''">
+                and w.name like concat('%',#{warehouseName},'%')
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and g.good_name like concat('%',#{goodName},'%')
+            </if>
+        </where>
+    </select>
+    <resultMap id="StockVo2" type="com.igeek.zncq.vo.StockVo">
+        <result property="num" column="num"></result>
+        <association property="warehouse" javaType="com.igeek.zncq.entity.Warehouse">
+            <id property="id" column="wid"></id>
+            <result property="name" column="wname"></result>
+        </association>
+        <association property="container" javaType="com.igeek.zncq.entity.Container">
+            <id property="id" column="cid"></id>
+            <result property="name" column="cname"></result>
+        </association>
+        <association property="goodRawVo" javaType="com.igeek.zncq.vo.GoodRawVo">
+            <id property="goodId" column="good_id"></id>
+            <result property="goodName" column="good_name"></result>
+            <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+                <id property="id" column="sid"></id>
+                <result property="name" column="sname"></result>
+                <result property="linkman" column="linkMan"></result>
+                <result property="phone" column="phone"></result>
+            </association>
+        </association>
+    </resultMap>
+    <select id="selectAllEquipByWC" resultMap="StockVo2">
+        select  s.num , w.id wid, w.name wname ,
+                c.id cid ,c.name cname,
+                g.good_id ,g.good_name,
+                s2.id sid , s2.name sname , s2.linkMan , s2.phone
+        from stock s
+                 join warehouse w on s.warehouse_id = w.id
+                 join container c on s.container_id = c.id
+                 join good g on s.good_id = g.good_id
+                 join supplier s2 on g.supplier_id = s2.id
+        where g.good_type_id = 3
+    </select>
+    <select id="selectAllEquipByWCAndQuery" resultMap="StockVo2">
+        select  s.num , w.id wid, w.name wname ,
+                c.id cid ,c.name cname,
+                g.good_id ,g.good_name,
+                s2.id sid , s2.name sname , s2.linkMan , s2.phone
+        from stock s
+                 join warehouse w on s.warehouse_id = w.id
+                 join container c on s.container_id = c.id
+                 join good g on s.good_id = g.good_id
+                 join supplier s2 on g.supplier_id = s2.id
+        where g.good_type_id = 3
+        <if test="goodName != null and goodName != ''">
+            and g.good_name like concat('%',#{goodName},'%')
+        </if>
+        <if test="warehouseName != null and warehouseName != ''">
+            and w.name like concat('%',#{warehouseName},'%')
+        </if>
+    </select>
+    <select id="findAllByGoodType" resultType="java.util.Map">
+        select g.good_name goodName, SUM(s.num) num
+        from stock s join good g on s.good_id = g.good_id
+        where g.good_type_id = #{typeId}
+        group by g.good_id ;
+    </select>
+    <resultMap id="StockVo3" type="com.igeek.zncq.vo.StockVo">
+        <association property="warehouse">
+            <id column="id" property="id"></id>
+            <result column="name" property="name"></result>
+        </association>
+        <collection property="goodRawVos" ofType="com.igeek.zncq.vo.GoodRawVo">
+            <id column="good_id" property="goodId"></id>
+            <result column="good_name" property="goodName"></result>
+            <result property="num" column="num"></result>
+            <result property="enableNum" column="enable_num"></result>
+        </collection>
+    </resultMap>
+    <select id="warn" resultMap="StockVo3">
+        select w.id,w.name,g.good_id,g.good_name,SUM(s.num) num, (SUM(wc.num *c.max_capacity) - SUM(s.num))enable_num
+        from stock s
+                 join warehouse_container wc on s.warehouse_id = wc.warehouse_id and s.container_id = wc.container_id
+                 join container c on c.id = wc.container_id
+                 join warehouse w on s.warehouse_id = w.id
+                 join good g on s.good_id = g.good_id
+        where good_type_id = 1 and c.max_capacity
+        group by w.id , g.good_id ;
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update stock
+        <set>
+            <if test="record.stockId != null">
+                stock_id = #{record.stockId,jdbcType=INTEGER},
+            </if>
+            <if test="record.warehouseId != null">
+                warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="record.containerId != null">
+                container_id = #{record.containerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.goodId != null">
+                good_id = #{record.goodId,jdbcType=INTEGER},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update stock
+        set stock_id = #{record.stockId,jdbcType=INTEGER},
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+        container_id = #{record.containerId,jdbcType=INTEGER},
+        good_id = #{record.goodId,jdbcType=INTEGER},
+        num = #{record.num,jdbcType=BIGINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.Stock">
+        update stock
+        <set>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="containerId != null">
+                container_id = #{containerId,jdbcType=INTEGER},
+            </if>
+            <if test="goodId != null">
+                good_id = #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=BIGINT},
+            </if>
+        </set>
+        where stock_id = #{stockId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.Stock">
+        update stock
+        set warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            container_id = #{containerId,jdbcType=INTEGER},
+            good_id      = #{goodId,jdbcType=INTEGER},
+            num          = #{num,jdbcType=BIGINT}
+        where stock_id = #{stockId,jdbcType=INTEGER}
+    </update>
+</mapper>

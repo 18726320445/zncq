@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.WarehouseTransferMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.WarehouseTransfer">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="num" property="num" jdbcType="BIGINT"/>
+        <result column="original_warehouse_id" property="originalWarehouseId" jdbcType="INTEGER"/>
+        <result column="original_container_id" property="originalContainerId" jdbcType="INTEGER"/>
+        <result column="transferDate" property="transferdate" jdbcType="TIMESTAMP"/>
+        <result column="transfer_container_id" property="transferContainerId" jdbcType="INTEGER"/>
+        <result column="transfer_warehouse_id" property="transferWarehouseId" jdbcType="INTEGER"/>
+        <result column="good_id" property="goodId" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , num, original_warehouse_id, original_container_id, transferDate, transfer_container_id,
+    transfer_warehouse_id, good_id, order_no
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.igeek.zncq.entity.WarehouseTransferExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from warehouse_transfer
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse_transfer
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from warehouse_transfer
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.WarehouseTransferExample">
+        delete from warehouse_transfer
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.WarehouseTransfer">
+        insert into warehouse_transfer (id, num, original_warehouse_id,
+                                        original_container_id, transferDate, transfer_container_id,
+                                        transfer_warehouse_id, good_id, order_no)
+        values (#{id,jdbcType=INTEGER}, #{num,jdbcType=BIGINT}, #{originalWarehouseId,jdbcType=INTEGER},
+                #{originalContainerId,jdbcType=INTEGER}, #{transferdate,jdbcType=TIMESTAMP},
+                #{transferContainerId,jdbcType=INTEGER},
+                #{transferWarehouseId,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.WarehouseTransfer">
+        insert into warehouse_transfer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="originalWarehouseId != null">
+                original_warehouse_id,
+            </if>
+            <if test="originalContainerId != null">
+                original_container_id,
+            </if>
+            <if test="transferdate != null">
+                transferDate,
+            </if>
+            <if test="transferContainerId != null">
+                transfer_container_id,
+            </if>
+            <if test="transferWarehouseId != null">
+                transfer_warehouse_id,
+            </if>
+            <if test="goodId != null">
+                good_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=BIGINT},
+            </if>
+            <if test="originalWarehouseId != null">
+                #{originalWarehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="originalContainerId != null">
+                #{originalContainerId,jdbcType=INTEGER},
+            </if>
+            <if test="transferdate != null">
+                #{transferdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transferContainerId != null">
+                #{transferContainerId,jdbcType=INTEGER},
+            </if>
+            <if test="transferWarehouseId != null">
+                #{transferWarehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="goodId != null">
+                #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.WarehouseTransferExample"
+            resultType="java.lang.Integer">
+        select count(*) from warehouse_transfer
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="WarehouseTransferVo" type="com.igeek.zncq.vo.WarehouseTransferVo">
+        <id property="id" column="id"></id>
+        <result property="orderNo" column="order_no"></result>
+        <result property="transferdate" column="transferDate"></result>
+        <result property="num" column="num"></result>
+        <association property="order" javaType="com.igeek.zncq.entity.Order">
+            <result property="state" column="state"></result>
+        </association>
+        <association property="good" javaType="com.igeek.zncq.entity.Good">
+            <id property="goodId" column="good_id"></id>
+            <id property="goodName" column="good_name"></id>
+            <id property="goodTypeId" column="good_type_id"></id>
+        </association>
+        <association property="tw" javaType="com.igeek.zncq.entity.Warehouse">
+            <id property="id" column="twid"></id>
+            <result property="name" column="twname"></result>
+        </association>
+        <association property="tc" javaType="com.igeek.zncq.entity.Container">
+            <id property="id" column="tcid"></id>
+            <result property="name" column="tcname"></result>
+        </association>
+        <association property="ow" javaType="com.igeek.zncq.entity.Warehouse">
+            <id property="id" column="owid"></id>
+            <result property="name" column="owname"></result>
+        </association>
+        <association property="oc" javaType="com.igeek.zncq.entity.Container">
+            <id property="id" column="ocid"></id>
+            <result property="name" column="ocname"></result>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="WarehouseTransferVo">
+        select wt.id,
+               wt.order_no,
+               wt.transferDate,
+               wt.num,
+               o.state,
+               g.good_id,
+               g.good_name,
+               g.good_type_id,
+               tw.id   twid,
+               tw.name twname,
+               tc.id   tcid,
+               tc.name tcname,
+               ow.id   owid,
+               ow.name owname,
+               oc.id   ocid,
+               oc.name ocname
+        from warehouse_transfer wt
+                 join good g on g.good_id = wt.good_id
+                 join `order` o on o.order_no = wt.order_no
+                 join warehouse tw on tw.id = wt.original_warehouse_id
+                 join warehouse ow on ow.id = wt.transfer_warehouse_id
+                 join container tc on tc.id = wt.transfer_container_id
+                 join container oc on oc.id = wt.original_container_id
+    </select>
+    <select id="findAllByQuery" resultMap="WarehouseTransferVo">
+        select wt.id , wt.order_no,wt.transferDate,wt.num,o.state, g.good_id , g.good_name , g.good_type_id ,
+        tw.id twid, tw.name twname, tc.id tcid,tc.name tcname,
+        ow.id owid,ow.name owname,oc.id ocid,oc.name ocname
+        from warehouse_transfer wt
+        join good g on g.good_id = wt.good_id
+        join `order` o on o.order_no = wt.order_no
+        join warehouse tw on tw.id = wt.original_warehouse_id
+        join warehouse ow on ow.id = wt.transfer_warehouse_id
+        join container tc on tc.id = wt.transfer_container_id
+        join container oc on oc.id = wt.original_container_id
+        <where>
+            <if test="goodName != null and goodName != ''">
+                and g.good_name like concat('%',#{goodName},'%')
+            </if>
+            <if test="state != null">
+                and o.state = #{state}
+            </if>
+        </where>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update warehouse_transfer
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=BIGINT},
+            </if>
+            <if test="record.originalWarehouseId != null">
+                original_warehouse_id = #{record.originalWarehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="record.originalContainerId != null">
+                original_container_id = #{record.originalContainerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.transferdate != null">
+                transferDate = #{record.transferdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.transferContainerId != null">
+                transfer_container_id = #{record.transferContainerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.transferWarehouseId != null">
+                transfer_warehouse_id = #{record.transferWarehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="record.goodId != null">
+                good_id = #{record.goodId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update warehouse_transfer
+        set id = #{record.id,jdbcType=INTEGER},
+        num = #{record.num,jdbcType=BIGINT},
+        original_warehouse_id = #{record.originalWarehouseId,jdbcType=INTEGER},
+        original_container_id = #{record.originalContainerId,jdbcType=INTEGER},
+        transferDate = #{record.transferdate,jdbcType=TIMESTAMP},
+        transfer_container_id = #{record.transferContainerId,jdbcType=INTEGER},
+        transfer_warehouse_id = #{record.transferWarehouseId,jdbcType=INTEGER},
+        good_id = #{record.goodId,jdbcType=INTEGER},
+        order_no = #{record.orderNo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.WarehouseTransfer">
+        update warehouse_transfer
+        <set>
+            <if test="num != null">
+                num = #{num,jdbcType=BIGINT},
+            </if>
+            <if test="originalWarehouseId != null">
+                original_warehouse_id = #{originalWarehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="originalContainerId != null">
+                original_container_id = #{originalContainerId,jdbcType=INTEGER},
+            </if>
+            <if test="transferdate != null">
+                transferDate = #{transferdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="transferContainerId != null">
+                transfer_container_id = #{transferContainerId,jdbcType=INTEGER},
+            </if>
+            <if test="transferWarehouseId != null">
+                transfer_warehouse_id = #{transferWarehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="goodId != null">
+                good_id = #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.WarehouseTransfer">
+        update warehouse_transfer
+        set num                   = #{num,jdbcType=BIGINT},
+            original_warehouse_id = #{originalWarehouseId,jdbcType=INTEGER},
+            original_container_id = #{originalContainerId,jdbcType=INTEGER},
+            transferDate          = #{transferdate,jdbcType=TIMESTAMP},
+            transfer_container_id = #{transferContainerId,jdbcType=INTEGER},
+            transfer_warehouse_id = #{transferWarehouseId,jdbcType=INTEGER},
+            good_id               = #{goodId,jdbcType=INTEGER},
+            order_no              = #{orderNo,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

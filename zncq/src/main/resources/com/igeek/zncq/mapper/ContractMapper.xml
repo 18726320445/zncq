@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.ContractMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.Contract">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="contract_no" property="contractNo" jdbcType="VARCHAR"/>
+        <result column="contract_name" property="contractName" jdbcType="VARCHAR"/>
+        <result column="createDate" property="createdate" jdbcType="TIMESTAMP"/>
+        <result column="signDate" property="signdate" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_name" property="createName" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="contract_type" property="contractType" jdbcType="INTEGER"/>
+        <result column="customer_id" property="customerId" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.igeek.zncq.entity.Contract" extends="BaseResultMap">
+        <result column="introduction" property="introduction" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , contract_no, contract_name, createDate, signDate, state, create_name, order_no,
+    contract_type, customer_id
+    </sql>
+    <sql id="Blob_Column_List">
+        introduction
+    </sql>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+            parameterType="com.igeek.zncq.entity.ContractExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from contract
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.ContractExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from contract
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from contract
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from contract
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.ContractExample">
+        delete from contract
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <delete id="deleteGoodById">
+        delete
+        from order_good
+        where order_no = #{orderNo}
+          and good_id = #{goodId}
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.Contract">
+        insert into contract (id, contract_no, contract_name,
+                              createDate, signDate, state,
+                              create_name, order_no, contract_type,
+                              customer_id, introduction)
+        values (#{id,jdbcType=INTEGER}, #{contractNo,jdbcType=VARCHAR}, #{contractName,jdbcType=VARCHAR},
+                #{createdate,jdbcType=TIMESTAMP}, #{signdate,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER},
+                #{createName,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{contractType,jdbcType=INTEGER},
+                #{customerId,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.Contract">
+        insert into contract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="contractNo != null">
+                contract_no,
+            </if>
+            <if test="contractName != null">
+                contract_name,
+            </if>
+            <if test="createdate != null">
+                createDate,
+            </if>
+            <if test="signdate != null">
+                signDate,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="contractType != null">
+                contract_type,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="contractNo != null">
+                #{contractNo,jdbcType=VARCHAR},
+            </if>
+            <if test="contractName != null">
+                #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate != null">
+                #{createdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="signdate != null">
+                #{signdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="contractType != null">
+                #{contractType,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.ContractExample" resultType="java.lang.Integer">
+        select count(*) from contract
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="ContractVo" type="com.igeek.zncq.vo.ContractVo">
+        <result property="contractNo" column="contract_no"></result>
+        <result property="orderNo" column="order_no"></result>
+        <result property="createdate" column="createDate"></result>
+        <result property="contractName" column="contract_name"></result>
+        <result property="contractType" column="contract_type"></result>
+        <result property="introduction" column="introduction" jdbcType="LONGNVARCHAR"></result>
+        <result property="state" column="state"></result>
+        <result property="signdate" column="signDate"></result>
+        <result property="createName" column="create_name"></result>
+        <association property="customer" javaType="com.igeek.zncq.entity.Customer">
+            <id property="id" column="id"></id>
+            <result property="customerName" column="customer_name"></result>
+            <result property="address" column="address"></result>
+            <result property="linkman" column="linkman"></result>
+            <result property="phone" column="phone"></result>
+        </association>
+    </resultMap>
+    <select id="selectContractVoAllByPage" resultMap="ContractVo">
+        select c.contract_no,
+               c.order_no,
+               c.createDate,
+               c.contract_name,
+               c.contract_type,
+               c.introduction,
+               c.state,
+               c.signDate,
+               c.create_name,
+               c2.id,
+               c2.customer_name,
+               c2.address,
+               c2.linkman,
+               c2.phone
+        from contract c
+                 join customer c2 on c.customer_id = c2.id
+        where state != 1 order by c.createDate desc
+    </select>
+    <resultMap id="ContractVo2" type="com.igeek.zncq.vo.ContractVo">
+        <result property="orderNo" column="order_no"></result>
+        <collection property="goods" ofType="com.igeek.zncq.vo.GoodRawVo">
+            <id property="goodId" column="good_id"></id>
+            <result property="goodTypeId" column="good_type_id"></result>
+            <result property="price" column="price"></result>
+            <result property="num" column="num"></result>
+            <result property="goodName" column="good_name"></result>
+            <result property="detail" column="detail" jdbcType="LONGNVARCHAR"></result>
+            <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+                <id property="id" column="sid"></id>
+                <result property="name" column="name"></result>
+                <result property="phone" column="phone"></result>
+                <result property="address" column="address"></result>
+                <result property="linkman" column="linkMan"></result>
+                <result property="email" column="email"></result>
+                <result property="remarks" column="remarks" jdbcType="LONGNVARCHAR"></result>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="selectContractVo" resultMap="ContractVo2">
+        select c.order_no,
+               og.num,g.good_id,g.good_type_id,g.good_name,g.detail,g.price,
+               s.id sis,s.name,s.phone,s.address,s.linkMan,s.email,s.remarks
+        from contract c
+                 join customer c2 on c.customer_id = c2.id
+                 join `order_good` og on c.order_no = og.order_no
+                 left join good g on g.good_id = og.good_id
+                 left join supplier s on g.supplier_id = s.id
+        where c.contract_no = #{contractNo}
+    </select>
+    <select id="selectContractVoAllByQueryPage" resultMap="ContractVo">
+        select c.contract_no,
+        c.order_no,
+        c.createDate,
+        c.contract_name,
+        c.contract_type,
+        c.introduction,
+        c.state,
+        c.signDate,
+        c.create_name,
+        c2.id,
+        c2.customer_name,
+        c2.address,
+        c2.linkman,
+        c2.phone
+        from contract c
+        join customer c2 on c.customer_id = c2.id
+        <where>
+            state != 1
+            <if test="contractName != null and contractName != ''">
+                and contract_name like concat('%',#{contractName},'%')
+            </if>
+            <if test="contractNo != null and contractNo != ''">
+                and contract_no like concat('%',#{contractNo},'%')
+            </if>
+        </where>
+    </select>
+    <resultMap id="ContractVo3" type="com.igeek.zncq.vo.ContractVo">
+        <result property="contractNo" column="contract_no"></result>
+        <result property="orderNo" column="order_no"></result>
+        <result property="createdate" column="createDate"></result>
+        <result property="contractName" column="contract_name"></result>
+        <result property="contractType" column="contract_type"></result>
+        <result property="introduction" column="introduction" jdbcType="LONGNVARCHAR"></result>
+        <result property="state" column="state"></result>
+        <result property="signdate" column="signDate"></result>
+        <result property="createName" column="create_name"></result>
+        <result property="processName" column="process_name"></result>
+        <result property="total" column="total"></result>
+        <result property="num" column="num"></result>
+        <association property="customer" javaType="com.igeek.zncq.entity.Customer">
+            <id property="id" column="id"></id>
+            <result property="customerName" column="customer_name"></result>
+            <result property="address" column="address"></result>
+            <result property="linkman" column="linkman"></result>
+            <result property="phone" column="phone"></result>
+        </association>
+    </resultMap>
+    <select id="selectContractVoByStates" resultMap="ContractVo3">
+        select c.contract_no,
+        c.order_no,
+        c.createDate,
+        c.contract_name,
+        c.contract_type,
+        c.introduction,
+        c.state,
+        c.signDate,
+        c.create_name,
+        o.process_name,
+        o.total,
+        o.num,
+        c2.id,
+        c2.customer_name,
+        c2.address,
+        c2.linkman,
+        c2.phone
+        from contract c
+        join customer c2 on c.customer_id = c2.id
+        join `order` o on c.order_no = o.order_no
+        <where>
+            and c.state in
+            <foreach collection="states" item="state" open="(" separator="," close=")">
+                #{state}
+            </foreach>
+        </where>
+    </select>
+    <select id="selectContractVoByStatePageQuery" resultMap="ContractVo3">
+        select c.contract_no,
+        c.order_no,
+        c.createDate,
+        c.contract_name,
+        c.contract_type,
+        c.introduction,
+        c.state,
+        c.signDate,
+        c.create_name,
+        o.process_name,
+        o.total,
+        o.num,
+        c2.id,
+        c2.customer_name,
+        c2.address,
+        c2.linkman,
+        c2.phone
+        from contract c
+        join customer c2 on c.customer_id = c2.id
+        join `order` o on c.order_no = o.order_no
+        <where>
+            and c.state in
+            <foreach collection="states" item="state" open="(" separator="," close=")">
+                #{state}
+            </foreach>
+            <if test="queryVo != null">
+                <if test="queryVo.contractNo != null and queryVo.contractNo != ''">
+                    and c.contract_no like concat('%',#{queryVo.contractNo},'%')
+                </if>
+                <if test="queryVo.customerName != null and queryVo.customerName != ''">
+                    and c2.customer_name like concat('%',#{queryVo.customerName},'%')
+                </if>
+                <if test="queryVo.fromDate != null and queryVo.toDate != null">
+                    and c.createDate between #{queryVo.fromDate} and #{queryVo.toDate}
+                </if>
+            </if>
+        </where>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update contract
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.contractNo != null">
+                contract_no = #{record.contractNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.contractName != null">
+                contract_name = #{record.contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createdate != null">
+                createDate = #{record.createdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.signdate != null">
+                signDate = #{record.signdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=INTEGER},
+            </if>
+            <if test="record.createName != null">
+                create_name = #{record.createName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.contractType != null">
+                contract_type = #{record.contractType,jdbcType=INTEGER},
+            </if>
+            <if test="record.customerId != null">
+                customer_id = #{record.customerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.introduction != null">
+                introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update contract
+        set id = #{record.id,jdbcType=INTEGER},
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+        contract_name = #{record.contractName,jdbcType=VARCHAR},
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+        signDate = #{record.signdate,jdbcType=TIMESTAMP},
+        state = #{record.state,jdbcType=INTEGER},
+        create_name = #{record.createName,jdbcType=VARCHAR},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        contract_type = #{record.contractType,jdbcType=INTEGER},
+        customer_id = #{record.customerId,jdbcType=INTEGER},
+        introduction = #{record.introduction,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update contract
+        set id = #{record.id,jdbcType=INTEGER},
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+        contract_name = #{record.contractName,jdbcType=VARCHAR},
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+        signDate = #{record.signdate,jdbcType=TIMESTAMP},
+        state = #{record.state,jdbcType=INTEGER},
+        create_name = #{record.createName,jdbcType=VARCHAR},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        contract_type = #{record.contractType,jdbcType=INTEGER},
+        customer_id = #{record.customerId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.Contract">
+        update contract
+        <set>
+            <if test="contractNo != null">
+                contract_no = #{contractNo,jdbcType=VARCHAR},
+            </if>
+            <if test="contractName != null">
+                contract_name = #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate != null">
+                createDate = #{createdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="signdate != null">
+                signDate = #{signdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="contractType != null">
+                contract_type = #{contractType,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.igeek.zncq.entity.Contract">
+        update contract
+        set contract_no   = #{contractNo,jdbcType=VARCHAR},
+            contract_name = #{contractName,jdbcType=VARCHAR},
+            createDate    = #{createdate,jdbcType=TIMESTAMP},
+            signDate      = #{signdate,jdbcType=TIMESTAMP},
+            state         = #{state,jdbcType=INTEGER},
+            create_name   = #{createName,jdbcType=VARCHAR},
+            order_no      = #{orderNo,jdbcType=VARCHAR},
+            contract_type = #{contractType,jdbcType=INTEGER},
+            customer_id   = #{customerId,jdbcType=INTEGER},
+            introduction  = #{introduction,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.Contract">
+        update contract
+        set contract_no   = #{contractNo,jdbcType=VARCHAR},
+            contract_name = #{contractName,jdbcType=VARCHAR},
+            createDate    = #{createdate,jdbcType=TIMESTAMP},
+            signDate      = #{signdate,jdbcType=TIMESTAMP},
+            state         = #{state,jdbcType=INTEGER},
+            create_name   = #{createName,jdbcType=VARCHAR},
+            order_no      = #{orderNo,jdbcType=VARCHAR},
+            contract_type = #{contractType,jdbcType=INTEGER},
+            customer_id   = #{customerId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateGoodNum">
+        update order_good
+        set num = #{num}
+        where order_no = #{orderNo}
+          and good_id = #{goodId}
+    </update>
+</mapper>

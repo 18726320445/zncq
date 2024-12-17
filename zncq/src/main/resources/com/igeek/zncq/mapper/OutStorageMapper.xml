@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.OutStorageMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.OutStorage">
+        <id column="out_id" property="outId" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="good_id" property="goodId" jdbcType="INTEGER"/>
+        <result column="num" property="num" jdbcType="BIGINT"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="container_id" property="containerId" jdbcType="INTEGER"/>
+        <result column="outDate" property="outdate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        out_id
+        , order_no, good_id, num, warehouse_id, container_id, outDate
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.OutStorageExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from out_storage
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from out_storage
+        where out_id = #{outId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from out_storage
+        where out_id = #{outId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.OutStorageExample">
+        delete from out_storage
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.OutStorage">
+        insert into out_storage (out_id, order_no, good_id,
+                                 num, warehouse_id, container_id,
+                                 outDate)
+        values (#{outId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{goodId,jdbcType=INTEGER},
+                #{num,jdbcType=BIGINT}, #{warehouseId,jdbcType=INTEGER}, #{containerId,jdbcType=INTEGER},
+                #{outdate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.OutStorage">
+        insert into out_storage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="outId != null">
+                out_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="goodId != null">
+                good_id,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="containerId != null">
+                container_id,
+            </if>
+            <if test="outdate != null">
+                outDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="outId != null">
+                #{outId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodId != null">
+                #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                #{num,jdbcType=BIGINT},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="containerId != null">
+                #{containerId,jdbcType=INTEGER},
+            </if>
+            <if test="outdate != null">
+                #{outdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.OutStorageExample" resultType="java.lang.Integer">
+        select count(*) from out_storage
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="OutStorageVo" type="com.igeek.zncq.vo.OutStorageVo">
+        <result property="orderNo" column="order_no"></result>
+        <association property="vehicle" javaType="com.igeek.zncq.entity.Vehicle">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+            <result property="admin" column="admin"></result>
+            <result property="phone" column="phone"></result>
+            <result property="vehicleNo" column="vehicle_no"></result>
+        </association>
+    </resultMap>
+    <select id="selectAllByPage" resultMap="OutStorageVo">
+        select distinct (os.order_no), v.id, v.name, v.admin, v.phone, v.vehicle_no
+        from out_storage os
+                 join `order_good` og on os.good_id = og.good_id and os.order_no = og.order_no
+                 left join vehicle v on og.vehicle_id = v.id
+    </select>
+    <resultMap id="OrderVo" type="com.igeek.zncq.vo.OrderVo">
+        <result property="orderNo" column="order_no"></result>
+        <collection property="goods" ofType="com.igeek.zncq.vo.GoodRawVo">
+            <id property="goodId" column="good_id"></id>
+            <result property="goodName" column="good_name"></result>
+            <result property="num" column="num"></result>
+            <result property="goodTypeId" column="good_type_id"></result>
+            <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+                <id column="id" property="id"></id>
+                <result column="name" property="name"></result>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="selectOrderVoByOrderNo" resultMap="OrderVo">
+        select o.order_no, o.num, g.good_id, g.good_name, g.good_type_id, s.name
+        from out_storage o
+                 left join good g on o.good_id = g.good_id
+                 left join supplier s on s.id = g.supplier_id
+        where o.order_no = #{orderNo}
+    </select>
+    <select id="selectAllByQueryPage" resultMap="OutStorageVo">
+        select distinct (os.order_no), v.id, v.name, v.admin, v.phone, v.vehicle_no
+        from out_storage os
+        join `order_good` og on os.good_id = og.good_id and os.order_no = og.order_no
+        left join vehicle v on og.vehicle_id = v.id
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                os.order_no like concat('%',#{orderNo},'%')
+            </if>
+        </where>
+    </select>
+    <resultMap id="OutStorageVo2" type="com.igeek.zncq.vo.OutStorageVo">
+        <result property="orderNo" column="order_no"></result>
+        <result property="num" column="num"></result>
+        <result property="outdate" column="outDate"></result>
+        <association property="good" javaType="com.igeek.zncq.vo.GoodRawVo">
+            <id property="goodId" column="good_id"></id>
+            <result property="goodTypeId" column="good_type_id"></result>
+            <result property="goodName" column="good_name"></result>
+        </association>
+        <association property="vehicle" javaType="com.igeek.zncq.entity.Vehicle">
+            <id property="id" column="vid"></id>
+            <result property="vehicleNo" column="vehicle_no"></result>
+        </association>
+        <association property="warehouse" javaType="com.igeek.zncq.entity.Warehouse">
+            <id property="id" column="wid"></id>
+            <result property="name" column="wname"></result>
+        </association>
+        <association property="container" javaType="com.igeek.zncq.entity.Container">
+            <id property="id" column="cid"></id>
+            <result property="name" column="cname"></result>
+        </association>
+    </resultMap>
+    <select id="selectFinishOutStorage" resultMap="OutStorageVo2">
+        select os.order_no,g.good_id,g.good_type_id,g.good_name,os.num,w.id   wid,w.name wname,
+               c.id   cid,c.name cname,v.id   vid, v.vehicle_no,os.outDate
+        from out_storage os
+                 join order_good og on os.order_no = og.order_no and os.good_id = og.good_id
+                 join vehicle v on og.vehicle_id = v.id
+                 join good g on g.good_id = os.good_id
+                 join warehouse w on os.warehouse_id = w.id
+                 join container c on os.container_id = c.id
+        where os.outDate is not null
+    </select>
+    <select id="selectFinishOutStorageByQuery" resultMap="OutStorageVo2">
+        select os.order_no,g.good_id,g.good_type_id,g.good_name,os.num,w.id   wid,w.name wname,
+               c.id   cid,c.name cname,v.id   vid, v.vehicle_no,os.outDate
+        from out_storage os
+                 join order_good og on os.order_no = og.order_no and os.good_id = og.good_id
+                 join vehicle v on og.vehicle_id = v.id
+                 join good g on g.good_id = os.good_id
+                 join warehouse w on os.warehouse_id = w.id
+                 join container c on os.container_id = c.id
+        where os.outDate is not null
+            <if test="orderNo != null and orderNo != ''">
+               and os.order_no like concat('%',#{orderNo},'%')
+            </if>
+            <if test="goodName != null and goodName != ''">
+                and g.good_name like concat('%',#{goodName},'%')
+            </if>
+            <if test="fromDate != null and toDate != null">
+                and os.outDate between #{fromDate} and #{toDate}
+            </if>
+    </select>
+    <select id="SelectPreWeekGoodSumTopSeven" resultType="java.util.Map">
+        select g.good_name goodName, sum(og.num) num
+        from out_storage og
+                 join good g on og.good_id = g.good_id
+        where og.outDate is not null  and
+            og.outDate between DATE_ADD(now(),INTERVAL -7 day ) and now() and g.good_type_id = 2
+        group by og.good_id order by sum(og.num) desc limit 0 , 7;
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update out_storage
+        <set>
+            <if test="record.outId != null">
+                out_id = #{record.outId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodId != null">
+                good_id = #{record.goodId,jdbcType=INTEGER},
+            </if>
+            <if test="record.num != null">
+                num = #{record.num,jdbcType=BIGINT},
+            </if>
+            <if test="record.warehouseId != null">
+                warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="record.containerId != null">
+                container_id = #{record.containerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.outdate != null">
+                outDate = #{record.outdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update out_storage
+        set out_id = #{record.outId,jdbcType=INTEGER},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+        good_id = #{record.goodId,jdbcType=INTEGER},
+        num = #{record.num,jdbcType=BIGINT},
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+        container_id = #{record.containerId,jdbcType=INTEGER},
+        outDate = #{record.outdate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.OutStorage">
+        update out_storage
+        <set>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodId != null">
+                good_id = #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=BIGINT},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="containerId != null">
+                container_id = #{containerId,jdbcType=INTEGER},
+            </if>
+            <if test="outdate != null">
+                outDate = #{outdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where out_id = #{outId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.OutStorage">
+        update out_storage
+        set order_no     = #{orderNo,jdbcType=VARCHAR},
+            good_id      = #{goodId,jdbcType=INTEGER},
+            num          = #{num,jdbcType=BIGINT},
+            warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            container_id = #{containerId,jdbcType=INTEGER},
+            outDate      = #{outdate,jdbcType=TIMESTAMP}
+        where out_id = #{outId,jdbcType=INTEGER}
+    </update>
+</mapper>

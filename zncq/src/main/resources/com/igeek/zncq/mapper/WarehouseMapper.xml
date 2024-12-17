@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.WarehouseMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.Warehouse">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="admin" property="admin" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , name, admin, address, phone
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.WarehouseExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from warehouse
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from warehouse
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.WarehouseExample">
+        delete from warehouse
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <delete id="deleteByIdForWarehouseAndContainer">
+        delete from warehouse_container
+        <where>
+            warehouse_id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+    <delete id="deleteWarehouseContainerById">
+        delete
+        from warehouse_container
+        where warehouse_id = #{warehouseId}
+          and container_id = #{containerId}
+
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.Warehouse">
+        insert into warehouse (id, name, admin,
+                               address, phone)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{admin,jdbcType=VARCHAR},
+                #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.Warehouse">
+        insert into warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="admin != null">
+                admin,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="admin != null">
+                #{admin,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertWarehouseContainer">
+        insert into warehouse_container
+        values ( #{warehouseId}, #{containerId}, #{num})
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.WarehouseExample" resultType="java.lang.Integer">
+        select count(*) from warehouse
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="WarehouseVo" type="com.igeek.zncq.vo.WarehouseVo">
+        <id property="id" column="id1"></id>
+        <collection property="containerVos" ofType="com.igeek.zncq.vo.ContainerVo">
+            <id property="id" column="id2"></id>
+            <result property="name" column="name"></result>
+            <result property="type" column="type"></result>
+            <result property="maxCapacity" column="max_capacity"></result>
+            <result property="num" column="num"></result>
+        </collection>
+    </resultMap>
+    <select id="selectWarehouseVoById" resultMap="WarehouseVo">
+        select w.id id1, c.id id2, c.name, c.type, c.max_capacity, wc.num
+        from `container` c
+                 join `warehouse_container` wc on c.id = wc.container_id
+                 join `warehouse` w on w.id = wc.warehouse_id
+        where wc.warehouse_id = #{id}
+    </select>
+    <select id="selectContainerNumByWarehouseId" resultType="java.lang.Long">
+        select wc.num
+        from `warehouse_container` wc
+        where wc.warehouse_id =#{warehouseId} and wc.container_id = #{containerId}
+    </select>
+    <select id="selectAllByUse" resultType="com.igeek.zncq.entity.Warehouse">
+        select distinct (w.id) ,w.name
+        from warehouse_container
+            join warehouse w on w.id = warehouse_container.warehouse_id;
+    </select>
+    <select id="findGoodAllByType" resultType="com.igeek.zncq.entity.Container">
+        select distinct (c.id),c.name
+        from warehouse_container wc join container c on wc.container_id = c.id
+        where c.type = #{type} and wc.warehouse_id = #{warehouseId}
+    </select>
+    <select id="findGoodByWidAndCid" resultType="com.igeek.zncq.entity.Good">
+        select g.good_id , g.good_name
+        from stock s join good g on s.good_id = g.good_id
+        where s.warehouse_id = #{warehouseId} and s.container_id = #{containerId}
+    </select>
+    <select id="countByWarn" resultType="java.lang.Integer">
+        select distinct (w.id)
+        from warehouse_container wc
+        join stock s on wc.warehouse_id = s.warehouse_id and wc.container_id = s.container_id
+        join warehouse w on w.id = wc.warehouse_id
+        join container c on c.id = wc.container_id
+        join good g on s.good_id = g.good_id
+        where (wc.num * c.max_capacity * 0.1) > s.num and g.good_type_id = 1
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update warehouse
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.admin != null">
+                admin = #{record.admin,jdbcType=VARCHAR},
+            </if>
+            <if test="record.address != null">
+                address = #{record.address,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update warehouse
+        set id = #{record.id,jdbcType=INTEGER},
+        name = #{record.name,jdbcType=VARCHAR},
+        admin = #{record.admin,jdbcType=VARCHAR},
+        address = #{record.address,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.Warehouse">
+        update warehouse
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="admin != null">
+                admin = #{admin,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.Warehouse">
+        update warehouse
+        set name    = #{name,jdbcType=VARCHAR},
+            admin   = #{admin,jdbcType=VARCHAR},
+            address = #{address,jdbcType=VARCHAR},
+            phone   = #{phone,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateNumByWarehouseContainerId">
+        update warehouse_container
+        set num = #{num}
+        where warehouse_id = #{warehouseId} and container_id = #{containerId}
+    </update>
+</mapper>

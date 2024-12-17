@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.GoodMapper">
+    <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.Good">
+        <id column="good_id" property="goodId" jdbcType="INTEGER"/>
+        <result column="good_name" property="goodName" jdbcType="VARCHAR"/>
+        <result column="good_type_id" property="goodTypeId" jdbcType="VARCHAR"/>
+        <result column="supplier_id" property="supplierId" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.igeek.zncq.entity.Good" extends="BaseResultMap">
+        <result column="detail" property="detail" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        good_id
+        , good_name, good_type_id, supplier_id, price, pic
+    </sql>
+    <sql id="Blob_Column_List">
+        detail
+    </sql>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+            parameterType="com.igeek.zncq.entity.GoodExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from good
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.GoodExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from good
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from good
+        where good_id = #{goodId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from good
+        where good_id = #{goodId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.GoodExample">
+        delete from good
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.igeek.zncq.entity.Good">
+        insert into good (good_id, good_name, good_type_id,
+                          supplier_id, price, pic,
+                          detail)
+        values (#{goodId,jdbcType=INTEGER}, #{goodName,jdbcType=VARCHAR}, #{goodTypeId,jdbcType=VARCHAR},
+                #{supplierId,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR},
+                #{detail,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.igeek.zncq.entity.Good">
+        insert into good
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodId != null">
+                good_id,
+            </if>
+            <if test="goodName != null">
+                good_name,
+            </if>
+            <if test="goodTypeId != null">
+                good_type_id,
+            </if>
+            <if test="supplierId != null">
+                supplier_id,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodId != null">
+                #{goodId,jdbcType=INTEGER},
+            </if>
+            <if test="goodName != null">
+                #{goodName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodTypeId != null">
+                #{goodTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierId != null">
+                #{supplierId,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="pic != null">
+                #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.igeek.zncq.entity.GoodExample" resultType="java.lang.Integer">
+        select count(*) from good
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <resultMap id="selectGoodVoAll" type="com.igeek.zncq.vo.GoodRawVo">
+        <id column="good_id" property="goodId"></id>
+        <result column="good_name" property="goodName"></result>
+        <result column="good_type_id" property="goodTypeId"></result>
+        <result column="pic" property="pic"></result>
+        <result column="price" property="price"></result>
+        <result column="detail" property="detail" jdbcType="LONGNVARCHAR"></result>
+        <association property="supplier" javaType="com.igeek.zncq.entity.Supplier">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+            <result property="phone" column="phone"></result>
+            <result property="address" column="address"></result>
+            <result property="linkman" column="linkMan"></result>
+            <result property="email" column="email"></result>
+            <result property="remarks" column="remarks" jdbcType="LONGNVARCHAR"></result>
+        </association>
+    </resultMap>
+    <select id="selectGoodForRawVoAll" resultMap="selectGoodVoAll">
+        select g.good_id,
+               g.good_name,
+               g.price,
+               g.detail,
+               g.pic,
+               s.id,
+               s.name,
+               s.phone,
+               s.address,
+               s.linkMan,
+               s.email,
+               s.remarks
+        from good g
+                 left join supplier s on g.supplier_id = s.id
+        where g.good_type_id = 1
+    </select>
+    <select id="selectGoodRawByGoodQuery" resultMap="selectGoodVoAll">
+        select g.good_id, g.good_name, g.price, g.detail, g.pic,
+        s.id, s.name, s.phone, s.address, s.linkMan, s.email,s.remarks
+        from good g left join supplier s on g.supplier_id = s.id
+        <where>
+            <if test="goodName!=null and goodName!=''">
+                and g.good_name like concat('%',#{goodName},'%')
+            </if>
+            <if test="goodTypeId!=null">
+                and g.good_type_id = #{goodTypeId}
+            </if>
+            <if test="price!=null">
+                and g.price = #{price}
+            </if>
+            <if test="supplierName!=null">
+                and s.name like concat('%',#{supplierName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="countByGoodIdAndOrder" resultType="java.lang.Integer">
+        select count(*)
+            from `order` o left join `order_good` og on o.order_no = og.order_no
+                left join `good` g on og.good_id = g.good_id
+                    <where>
+                        <if test="ids!=null">
+                            g.good_id in
+                            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                                #{id}
+                            </foreach>
+                        </if>
+                            and og.state = 0
+                    </where>
+    </select>
+    <select id="selectGoodRawVoByTypeId" resultMap="selectGoodVoAll">
+        select g.good_id,
+               g.good_name,
+               g.price,
+               g.detail,
+               g.pic,
+               s.id,
+               s.name,
+               s.phone,
+               s.address,
+               s.linkMan,
+               s.email,
+               s.remarks
+        from good g
+                 left join supplier s on g.supplier_id = s.id
+        where g.good_type_id = #{typeId}
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+        update good
+        <set>
+            <if test="record.goodId != null">
+                good_id = #{record.goodId,jdbcType=INTEGER},
+            </if>
+            <if test="record.goodName != null">
+                good_name = #{record.goodName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodTypeId != null">
+                good_type_id = #{record.goodTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.supplierId != null">
+                supplier_id = #{record.supplierId,jdbcType=INTEGER},
+            </if>
+            <if test="record.price != null">
+                price = #{record.price,jdbcType=DOUBLE},
+            </if>
+            <if test="record.pic != null">
+                pic = #{record.pic,jdbcType=VARCHAR},
+            </if>
+            <if test="record.detail != null">
+                detail = #{record.detail,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update good
+        set good_id = #{record.goodId,jdbcType=INTEGER},
+        good_name = #{record.goodName,jdbcType=VARCHAR},
+        good_type_id = #{record.goodTypeId,jdbcType=VARCHAR},
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+        price = #{record.price,jdbcType=DOUBLE},
+        pic = #{record.pic,jdbcType=VARCHAR},
+        detail = #{record.detail,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update good
+        set good_id = #{record.goodId,jdbcType=INTEGER},
+        good_name = #{record.goodName,jdbcType=VARCHAR},
+        good_type_id = #{record.goodTypeId,jdbcType=VARCHAR},
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+        price = #{record.price,jdbcType=DOUBLE},
+        pic = #{record.pic,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.Good">
+        update good
+        <set>
+            <if test="goodName != null">
+                good_name = #{goodName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodTypeId != null">
+                good_type_id = #{goodTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="pic != null">
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where good_id = #{goodId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.igeek.zncq.entity.Good">
+        update good
+        set good_name    = #{goodName,jdbcType=VARCHAR},
+            good_type_id = #{goodTypeId,jdbcType=VARCHAR},
+            supplier_id  = #{supplierId,jdbcType=INTEGER},
+            price        = #{price,jdbcType=DOUBLE},
+            pic          = #{pic,jdbcType=VARCHAR},
+            detail       = #{detail,jdbcType=LONGVARCHAR}
+        where good_id = #{goodId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.Good">
+        update good
+        set good_name    = #{goodName,jdbcType=VARCHAR},
+            good_type_id = #{goodTypeId,jdbcType=VARCHAR},
+            supplier_id  = #{supplierId,jdbcType=INTEGER},
+            price        = #{price,jdbcType=DOUBLE},
+            pic          = #{pic,jdbcType=VARCHAR}
+        where good_id = #{goodId,jdbcType=INTEGER}
+    </update>
+</mapper>

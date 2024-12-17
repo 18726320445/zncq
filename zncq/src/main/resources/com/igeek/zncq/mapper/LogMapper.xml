@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.igeek.zncq.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.igeek.zncq.entity.Log" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="do_time" property="doTime" jdbcType="TIMESTAMP" />
+    <result column="process_time" property="processTime" jdbcType="INTEGER" />
+    <result column="args" property="args" jdbcType="VARCHAR" />
+    <result column="result_message" property="resultMessage" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, ip, do_time, process_time, args, result_message, detail, type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.zncq.entity.LogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.igeek.zncq.entity.LogExample" >
+    delete from log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.igeek.zncq.entity.Log" >
+    insert into log (id, user_id, ip, 
+      do_time, process_time, args, 
+      result_message, detail, type
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, 
+      #{doTime,jdbcType=TIMESTAMP}, #{processTime,jdbcType=INTEGER}, #{args,jdbcType=VARCHAR}, 
+      #{resultMessage,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.igeek.zncq.entity.Log" >
+    insert into log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="doTime != null" >
+        do_time,
+      </if>
+      <if test="processTime != null" >
+        process_time,
+      </if>
+      <if test="args != null" >
+        args,
+      </if>
+      <if test="resultMessage != null" >
+        result_message,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="doTime != null" >
+        #{doTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processTime != null" >
+        #{processTime,jdbcType=INTEGER},
+      </if>
+      <if test="args != null" >
+        #{args,jdbcType=VARCHAR},
+      </if>
+      <if test="resultMessage != null" >
+        #{resultMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.igeek.zncq.entity.LogExample" resultType="java.lang.Integer" >
+    select count(*) from log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update log
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doTime != null" >
+        do_time = #{record.doTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.processTime != null" >
+        process_time = #{record.processTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.args != null" >
+        args = #{record.args,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultMessage != null" >
+        result_message = #{record.resultMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detail != null" >
+        detail = #{record.detail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update log
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      do_time = #{record.doTime,jdbcType=TIMESTAMP},
+      process_time = #{record.processTime,jdbcType=INTEGER},
+      args = #{record.args,jdbcType=VARCHAR},
+      result_message = #{record.resultMessage,jdbcType=VARCHAR},
+      detail = #{record.detail,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.igeek.zncq.entity.Log" >
+    update log
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="doTime != null" >
+        do_time = #{doTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processTime != null" >
+        process_time = #{processTime,jdbcType=INTEGER},
+      </if>
+      <if test="args != null" >
+        args = #{args,jdbcType=VARCHAR},
+      </if>
+      <if test="resultMessage != null" >
+        result_message = #{resultMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.igeek.zncq.entity.Log" >
+    update log
+    set user_id = #{userId,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
+      do_time = #{doTime,jdbcType=TIMESTAMP},
+      process_time = #{processTime,jdbcType=INTEGER},
+      args = #{args,jdbcType=VARCHAR},
+      result_message = #{resultMessage,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

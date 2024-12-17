@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5922096",
+      "name": "订单详情-订单编号",
+      "font_class": "dingdanxiangqing-dingdanbianhao",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "14322540",
+      "name": "等待出库.svg",
+      "font_class": "dengdaichukusvg",
+      "unicode": "e756",
+      "unicode_decimal": 59222
+    },
+    {
+      "icon_id": "14322541",
+      "name": "等待入库.svg",
+      "font_class": "dengdairukusvg",
+      "unicode": "e757",
+      "unicode_decimal": 59223
+    },
+    {
+      "icon_id": "25447643",
+      "name": "合_34合同管理",
+      "font_class": "he_34hetongguanli",
+      "unicode": "e70f",
+      "unicode_decimal": 59151
+    }
+  ]
+}
